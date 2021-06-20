@@ -1,22 +1,25 @@
 package com.example.demomeetup.service;
 
+import com.example.demomeetup.model.Flight;
+import com.example.demomeetup.service.client.FlightClient;
 import lombok.RequiredArgsConstructor;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.concurrent.CompletableFuture;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class DemoService {
 
-    private final RestTemplate restTemplate = new RestTemplate();
+    private final List<FlightClient> clients;
 
-    //@Async
-    public String getDataFromSlowService() {
-        String forObject = restTemplate.getForObject("http://localhost:8081/data/slow", String.class);
-        return forObject + "12w12w";
+    public List<Flight> getFlightsFromSlowService() {
+        return clients.stream()
+                .parallel()
+                .flatMap(c -> c.getFlights().stream())
+                .collect(Collectors.toList());
     }
 
 }
