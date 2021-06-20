@@ -3,21 +3,19 @@ package com.example.demomeetup.service.client;
 import com.example.demomeetup.model.Flight;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
-
-import java.util.List;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Flux;
 
 @Service
 @RequiredArgsConstructor
 public class RemoteFlightClient implements FlightClient {
 
-    private final RestTemplate restTemplate;
+    private final WebClient webClient;
 
     @Override
-    public List<Flight> getFlights() {
-        long startTime = System.currentTimeMillis();
-        Flight remoteFlight = restTemplate.getForObject("http://localhost:8081/flights", Flight.class);
-        System.out.println("Remote execution time: " + (System.currentTimeMillis() - startTime));
-        return List.of(remoteFlight);
+    public Flux<Flight> getFlights() {
+        return webClient.get()
+                .uri("/flights")
+                .exchangeToFlux(r -> r.bodyToFlux(Flight.class));
     }
 }

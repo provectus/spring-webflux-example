@@ -1,12 +1,11 @@
 package com.example.demomeetup.repository;
 
 import com.example.demomeetup.model.Flight;
-import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
+import reactor.core.publisher.Flux;
 
-import java.util.List;
+public interface FlightsRepository extends ReactiveMongoRepository<Flight, String> {
 
-public interface FlightsRepository extends MongoRepository<Flight, String> {
-
-    List<Flight> findAllByPriceBetween(Integer start, Integer end);
+    Flux<Flight> findAllByPriceBetween(Integer start, Integer end);
 
 }

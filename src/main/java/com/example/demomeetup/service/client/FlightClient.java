@@ -1,9 +1,8 @@
 package com.example.demomeetup.service.client;
 
 import com.example.demomeetup.model.Flight;
-
-import java.util.List;
+import reactor.core.publisher.Flux;
 
 public interface FlightClient {
-    List<Flight> getFlights();
+    Flux<Flight> getFlights();
 }

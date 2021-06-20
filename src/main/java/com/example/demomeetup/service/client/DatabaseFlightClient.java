@@ -4,8 +4,8 @@ import com.example.demomeetup.model.Flight;
 import com.example.demomeetup.repository.FlightsRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 
-import java.util.List;
 import java.util.Random;
 
 @Service
@@ -16,11 +16,8 @@ public class DatabaseFlightClient implements FlightClient {
     private final Random r = new Random();
 
     @Override
-    public List<Flight> getFlights() {
+    public Flux<Flight> getFlights() {
         int start = r.nextInt(100);
-        long startTime = System.currentTimeMillis();
-        List<Flight> result = repository.findAllByPriceBetween(start, start + 2);
-        System.out.println("Database execution time: " + (System.currentTimeMillis() - startTime));
-        return result;
+        return repository.findAllByPriceBetween(start, start + 2).take(10);
     }
 }
