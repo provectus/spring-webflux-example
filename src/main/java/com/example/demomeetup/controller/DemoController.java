@@ -15,7 +15,7 @@ public class DemoController {
 
     private final DemoService demoService;
 
-    @GetMapping(value = "/flights", produces = MediaType.APPLICATION_STREAM_JSON_VALUE)
+    @GetMapping(value = "/flights", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<Flight> flights() {
         return demoService.getFlightsFromSlowService();
     }
