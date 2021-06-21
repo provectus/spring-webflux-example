@@ -2,7 +2,6 @@ package com.example.demomeetup.util;
 
 import lombok.SneakyThrows;
 import reactor.core.publisher.Flux;
-import reactor.core.scheduler.Schedulers;
 
 import java.util.stream.IntStream;
 
