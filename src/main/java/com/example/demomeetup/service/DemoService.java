@@ -19,10 +19,8 @@ public class DemoService {
     private final List<FlightClient> clients;
 
     public Flux<List<Flight>> getFlightsFromSlowService() {
-        List<Mono<List<Flight>>> collect = clients.stream()
-                .map(c -> getFlights(c))
-                .collect(Collectors.toList());
-        return Flux.merge(collect);
+        return Flux.fromStream(clients.stream())
+                .flatMap(c -> getFlights(c));
     }
 
     private Mono<List<Flight>> getFlights(FlightClient client) {
