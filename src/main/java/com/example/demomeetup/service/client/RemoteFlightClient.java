@@ -4,6 +4,7 @@ import com.example.demomeetup.model.Flight;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
@@ -14,10 +15,8 @@ public class RemoteFlightClient implements FlightClient {
     private final RestTemplate restTemplate;
 
     @Override
-    public List<Flight> getFlights() {
-        long startTime = System.currentTimeMillis();
+    public Mono<List<Flight>> getFlights() {
         Flight remoteFlight = restTemplate.getForObject("http://localhost:8081/flights", Flight.class);
-        System.out.println("Remote execution time: " + (System.currentTimeMillis() - startTime));
-        return List.of(remoteFlight);
+        return Mono.just(List.of(remoteFlight));
     }
 }

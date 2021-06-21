@@ -5,6 +5,8 @@ import com.example.demomeetup.service.client.FlightClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import reactor.core.publisher.Flux;
+import reactor.core.scheduler.Schedulers;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,11 +17,10 @@ public class DemoService {
 
     private final List<FlightClient> clients;
 
-    public List<Flight> getFlightsFromSlowService() {
-        return clients.stream()
-                .parallel()
-                .flatMap(c -> c.getFlights().stream())
-                .collect(Collectors.toList());
+    public Flux<List<Flight>> getFlightsFromSlowService() {
+        return Flux.merge(clients.stream()
+                .map(c -> c.getFlights().subscribeOn(Schedulers.boundedElastic()))
+                .collect(Collectors.toList()));
     }
 
 }
