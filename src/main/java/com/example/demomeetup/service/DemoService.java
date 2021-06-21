@@ -4,7 +4,6 @@ import com.example.demomeetup.model.Flight;
 import com.example.demomeetup.service.client.FlightClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.stream.Collectors;
