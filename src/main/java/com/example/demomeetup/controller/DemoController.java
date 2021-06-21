@@ -16,9 +16,9 @@ public class DemoController {
 
     @GetMapping("/flights")
     public List<Flight> flights() {
-        long start = System.currentTimeMillis();
+        //long start = System.currentTimeMillis();
         var result = demoService.getFlightsFromSlowService();
-        System.out.println("Execution time: " + (System.currentTimeMillis() - start));
+        //System.out.println("Execution time: " + (System.currentTimeMillis() - start));
         return result;
     }
 
