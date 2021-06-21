@@ -6,5 +6,5 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 
 public interface FlightClient {
-    Mono<List<Flight>> getFlights();
+    List<Flight> getFlights();
 }

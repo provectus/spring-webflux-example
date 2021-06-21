@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 
 import java.util.List;
@@ -18,9 +19,14 @@ public class DemoService {
     private final List<FlightClient> clients;
 
     public Flux<List<Flight>> getFlightsFromSlowService() {
-        return Flux.merge(clients.stream()
-                .map(c -> c.getFlights().subscribeOn(Schedulers.boundedElastic()))
-                .collect(Collectors.toList()));
+        List<Mono<List<Flight>>> collect = clients.stream()
+                .map(c -> getFlights(c))
+                .collect(Collectors.toList());
+        return Flux.merge(collect);
+    }
+
+    private Mono<List<Flight>> getFlights(FlightClient client) {
+        return Mono.fromCallable(() -> client.getFlights()).subscribeOn(Schedulers.boundedElastic());
     }
 
 }

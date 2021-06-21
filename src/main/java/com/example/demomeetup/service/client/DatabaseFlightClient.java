@@ -17,9 +17,9 @@ public class DatabaseFlightClient implements FlightClient {
     private final Random r = new Random();
 
     @Override
-    public Mono<List<Flight>> getFlights() {
+    public List<Flight> getFlights() {
         int start = r.nextInt(100);
         List<Flight> result = repository.findAllByPriceBetween(start, start + 2);
-        return Mono.just(result);
+        return result;
     }
 }
