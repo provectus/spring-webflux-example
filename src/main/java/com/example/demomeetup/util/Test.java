@@ -1,4 +1,4 @@
-package com.example.demomeetup;
+package com.example.demomeetup.util;
 
 import lombok.SneakyThrows;
 import reactor.core.publisher.Flux;
