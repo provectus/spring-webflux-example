@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-public class FLightsController {
+public class FlightsController {
 
     private final FlightsService flightsService;
 
