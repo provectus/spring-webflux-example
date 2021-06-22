@@ -4,27 +4,25 @@ import com.example.demomeetup.model.Flight;
 import com.example.demomeetup.service.client.FlightClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class DemoService {
+public class FlightsService {
 
     private final List<FlightClient> clients;
 
-    public Flux<List<Flight>> getFlightsFromSlowService() {
+    public Flux<List<Flight>> getFlightsFromClients() {
         return Flux.fromStream(clients.stream())
-                .flatMap(c -> getFlights(c));
+                .flatMap(this::getFlights);
     }
 
     private Mono<List<Flight>> getFlights(FlightClient client) {
-        return Mono.fromCallable(() -> client.getFlights()).subscribeOn(Schedulers.boundedElastic());
+        return Mono.fromCallable(client::getFlights).subscribeOn(Schedulers.boundedElastic());
     }
 
 }

@@ -1,7 +1,7 @@
 package com.example.demomeetup.controller;
 
 import com.example.demomeetup.model.Flight;
-import com.example.demomeetup.service.DemoService;
+import com.example.demomeetup.service.FlightsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,13 +12,13 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-public class DemoController {
+public class FLightsController {
 
-    private final DemoService demoService;
+    private final FlightsService flightsService;
 
     @GetMapping(value = "/flights", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<List<Flight>> flights() {
-        return demoService.getFlightsFromSlowService();
+        return flightsService.getFlightsFromClients();
     }
 
     @GetMapping("/fast")
