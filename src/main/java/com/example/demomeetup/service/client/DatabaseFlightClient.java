@@ -18,9 +18,6 @@ public class DatabaseFlightClient implements FlightClient {
     @Override
     public List<Flight> getFlights() {
         int start = r.nextInt(100);
-        long startTime = System.currentTimeMillis();
-        List<Flight> result = repository.findAllByPriceBetween(start, start + 2);
-        System.out.println("Database execution time: " + (System.currentTimeMillis() - startTime));
-        return result;
+        return repository.findAllByPriceBetween(start, start + 2);
     }
 }
