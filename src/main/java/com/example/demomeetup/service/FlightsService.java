@@ -10,11 +10,11 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class DemoService {
+public class FlightsService {
 
     private final List<FlightClient> clients;
 
-    public List<Flight> getFlightsFromSlowService() {
+    public List<Flight> getFlightsFromClients() {
         return clients.stream()
                 .parallel()
                 .flatMap(c -> c.getFlights().stream())
